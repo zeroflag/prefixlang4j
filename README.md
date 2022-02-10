@@ -2,13 +2,13 @@
 
 ## Examples
 
-```lisp
+```elisp
 (or
     (and
         (member 'admin')
         (member 'datalake'))
     (or
-        (user 'bob') 
-        (user 'sam')
-        (user 'tom')))
+        (username 'bob') 
+        (username 'sam')
+        (username 'tom')))
 ```
