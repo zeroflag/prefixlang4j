@@ -2,7 +2,7 @@
 
 ## Examples
 
-```elisp
+```clojure
 (or
     (and
         (member 'admin')
