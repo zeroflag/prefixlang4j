@@ -1,5 +1,10 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import static java.util.stream.Collectors.toList;
 
 public class Interpreter {
     private final Map<String, SpecialForm> specialForms = new HashMap<>();
@@ -35,6 +40,12 @@ public class Interpreter {
             Arity.BINARY.check("!=", args);
             return !args.get(0).equals(args.get(1));
         });
+        functions.put("match", args -> {
+            Arity.BINARY.check("match", args);
+            return args.get(0) instanceof String
+                ? Pattern.matches((String)args.get(1), (String)args.get(0))
+                : ((List<String>)(args.get(0))).stream().anyMatch(each -> Pattern.matches((String)args.get(1), each));
+        });
         functions.put("size", args -> {
             Arity.UNARY.check("size", args);
             return ((Collection<?>) args.get(0)).size();
@@ -69,7 +80,7 @@ public class Interpreter {
                     Func func = functions.get(ast.functionName());
                     if (func == null)
                         throw new UndefinedSymbolException(ast.functionName(), "function");
-                    return func.call(ast.functionParameters().stream().map(this::eval).collect(Collectors.toList()));
+                    return func.call(ast.functionParameters().stream().map(this::eval).collect(toList()));
                 }
             } else {
                 throw new InterpreterException("Unknown token: " + ast.token());

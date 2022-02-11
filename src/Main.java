@@ -23,13 +23,13 @@ public class Main {
                 "   (username 'lmccay') " +
                 "   (username 'pzampino')))");
 
-        // checking any group explicitly
-
+        eval("(match groups 'data.*')");
+        eval("(match username 'admi.')");
         eval("(!= (size groups) 0)");
 
 //        eval("(= (session 'name') 'value')");
 //        eval("(= (request-header 'name') 'value')");
-//        eval("(= (request-method 'name') 'value')");
+//        eval("(= request-method 'value')");
 
     }
 
